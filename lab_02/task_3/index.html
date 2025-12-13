@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My To Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            margin: 30px;
+        }
+        .todo-container {
+            max-width: 600px;
+        }
+
+        .todo-item {
+            padding: 10px 15px;
+    
+            display: flex;
+            align-items: center;
+            cursor: pointer; /* Для імітації інтерактивності */
+            transition: background-color 0.3s;
+        }
+
+        /* Візуальний поділ: Парні та непарні елементи */
+        .todo-list li:nth-child(odd) {
+            background-color: #e0f7fa;
+        }
+        .todo-list li:nth-child(even) {
+            background-color: #88b9d0;
+        }
+
+        /* 🔳 Іконка чекбокса (не відмічено) */
+        .todo-item::before {
+            content: "\2610"; /* 🔳 Чекбокс Юнікод U+2610 (порожній квадрат) */
+            font-size: 1.2em;
+            margin-right: 10px;
+            color: #555;
+            min-width: 20px; /* Забезпечення однакової ширини */
+        }
+
+        /* -------------------------------------- */
+        /* 🟩 Стилі для ВІДМІЧЕНИХ елементів (клас .completed) */
+        /* -------------------------------------- */
+
+        .todo-item.completed {
+            background-color: #ccc !important; /* Сірий фон для відмічених */
+            color: #888;
+        }
+
+        /* 🗹 Іконка чекбокса (відмічено) */
+        .todo-item.completed::before {
+            content: "\2611"; /* 🗹 Чекбокс з галочкою Юнікод U+2611 */
+            color: #000000; /* Зелений колір галочки */
+        }
+
+        /* Закреслений текст для відмічених */
+        .todo-item.completed span {
+            text-decoration: line-through;
+        }
+
+        /* ❌ Додаткова іконка "Червоний хрестик" в кінці рядка */
+        .todo-item::after {
+            content: "\2715"; /* ❌ Юнікод U+2715 (Важкий Х) */
+            margin-left: auto; /* Вирівнювання праворуч */
+            color: transparent; /* За замовчуванням приховано */
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        /* ❗️ Відображення червоного хрестика при наведенні або для відмічених */
+        .todo-item:hover::after,
+        .todo-item.completed::after {
+            color: #d32f2f; /* Червоний */
+        }
+
+        /* Забезпечення, що span займає доступний простір */
+        .todo-item span {
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="todo-container">
+    <h1>My To Do List</h1>
+    <ul class="todo-list" id="todo-list">
+        <li class="todo-item"><span>Завершити проєкт HTML/CSS</span></li>
+
+        <li class="todo-item completed"><span>Надіслати звіт електронною поштою</span></li>
+
+        <li class="todo-item"><span>Зателефонувати до банку</span></li>
+
+        <li class="todo-item completed"><span>Купити молоко та хліб</span></li>
+        
+        <li class="todo-item"><span>Підготувати презентацію на завтра</span></li>
+    </ul>
+</div>
+
+<script>
+    document.getElementById('todo-list').addEventListener('click', function(e) {
+        // Перевіряємо, чи клікнули по елементу списку
+        if (e.target.closest('.todo-item')) {
+            e.target.closest('.todo-item').classList.toggle('completed');
+        }
+    });
+</script>
+
+</body>
+</html>

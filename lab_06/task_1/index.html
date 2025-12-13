@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Годинник</title>
+  <style>
+    :root {--size:320px}
+    body {
+        height:100vh;
+        margin:0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+    .clock {
+        width:var(--size);
+        height:var(--size);
+        border-radius:50%;
+        position:relative;
+        border: 4px solid #119960;
+    }
+    .dial {
+        position:absolute;
+        inset:0;
+        border-radius:50%;
+        display:grid;
+        place-items:center
+    }
+    .ticks {
+        position:absolute;
+        inset:0
+    }
+    .center {
+        position:absolute;
+        left:50%;
+        top:50%;
+        transform:translate(-50%,-50%);
+        width:14px;
+        height:14px;
+        border-radius:50%;
+        background:#119060;
+    }
+
+    .hand {
+        position:absolute;
+        left:50%;
+        bottom:50%;
+        transform-origin:center 100%;
+        border-radius:6px}
+    .hand.hour {
+        width:8px;
+        height:30%;
+        background:#119060;
+        transform:translateX(-50%)
+    }
+    .hand.minute {
+        width:6px;
+        height:42%;
+        background:#119060;
+        transform:translateX(-50%)
+    }
+    .hand.second {
+        width:2px;
+        height:46%;
+        background:#119060;
+        transform:translateX(-50%)
+    }
+  </style>
+</head>
+<body>
+  <div class="clock" id="clock">
+    <div class="dial">
+      <div class="ticks" id="ticks"></div>
+      <div class="hand hour" id="hour"></div>
+      <div class="hand minute" id="minute"></div>
+      <div class="hand second" id="second"></div>
+      <div class="center"></div>
+    </div>
+  </div>
+
+  <script>
+    (function createTicks(){
+      const ticks = document.getElementById('ticks');
+      for(let i=0;i<60;i++){
+        const t = document.createElement('div');
+        t.className = 'tick'+(i%5===0? ' hour':'');
+        t.style.transform = `translateX(-50%) rotate(${i*6}deg)`; // 360/60 = 6deg
+        ticks.appendChild(t);
+      }
+    })();
+
+    const hourHand = document.getElementById('hour');
+    const minuteHand = document.getElementById('minute');
+    const secondHand = document.getElementById('second');
+
+    const MS_PER_12H = 12 * 3600 * 1000;
+    const omegaHourDegPerMs = 360 / MS_PER_12H;
+    const omegaMinuteDegPerMs = omegaHourDegPerMs * 60;
+    const omegaSecondDegPerMs = 360 / (60*1000);
+
+    function msSince12h(d){
+      const h = d.getHours() % 12;
+      return h*3600*1000 + d.getMinutes()*60*1000 + d.getSeconds()*1000 + d.getMilliseconds();
+    }
+    const now = new Date();
+    const baseMs = msSince12h(now);
+
+    const startAngleHour = (baseMs * omegaHourDegPerMs) % 360;
+    const startAngleMinute = (baseMs * omegaMinuteDegPerMs) % 360;
+    const startAngleSecond = (baseMs * omegaSecondDegPerMs) % 360;
+
+    hourHand.style.transform = `translateX(-50%) rotate(${startAngleHour}deg)`;
+    minuteHand.style.transform = `translateX(-50%) rotate(${startAngleMinute}deg)`;
+    secondHand.style.transform = `translateX(-50%) rotate(${startAngleSecond}deg)`;
+
+    const startPerf = performance.now();
+
+    function frame(nowPerf){
+      const elapsed = nowPerf - startPerf;
+      const angleH = (startAngleHour + omegaHourDegPerMs * elapsed) % 360;
+      const angleM = (startAngleMinute + omegaMinuteDegPerMs * elapsed) % 360;
+      const angleS = (startAngleSecond + omegaSecondDegPerMs * elapsed) % 360;
+
+      hourHand.style.transform = `translateX(-50%) rotate(${angleH}deg)`;
+      minuteHand.style.transform = `translateX(-50%) rotate(${angleM}deg)`;
+      secondHand.style.transform = `translateX(-50%) rotate(${angleS}deg)`;
+
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  </script>
+</body>
+</html>

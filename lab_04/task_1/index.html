@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Device Component</title>
+<style>
+  .device-container {
+    width: 240px;
+    background-color: #f0f4ff;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-family: Arial, sans-serif;
+    margin: 0 auto;
+
+  }
+
+  .device-image {
+    width: 90%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .device-title {
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .device-props {
+    width: 100%;
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+  }
+
+  .device-props span {
+    display: block;
+  }
+
+  .btn-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .btn-edit {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #4c84ff;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .btn-edit:hover {
+    background-color: #1e60ff;
+    box-shadow: 0 0 6px rgba(0,0,0,0.3);
+  }
+
+  .btn-delete {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #ff4c4c;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .btn-delete:hover {
+    background-color: #e60000;
+    box-shadow: 0 0 6px rgba(0,0,0,0.3);
+  }
+</style>
+</head>
+<body>
+
+<div class="device-container">
+  <img class="device-image" src="D:\1\www\lab_04\c920-gallery-1.png" alt="Device Image">
+  <div class="device-title">Logitech C920</div>
+
+  <div class="device-props">
+    <span>Інтерфейс підключення: USB 2.0</span>
+    <span>Роздільна здатність відео: 1920×1080</span>
+    <span>Частота кадрів: 30fps</span>
+    <span>Кут огляду: 78°</span>
+  </div>
+
+  <div class="btn-wrapper">
+    <button class="btn-edit">Edit</button>
+    <button class="btn-delete">Delete</button>
+  </div>
+</div>
+
+</body>
+</html>
